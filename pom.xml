@@ -1,6 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.jstelecom.it</groupId>
-  <artifactId>http-request-tag-engine</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <groupId>com.jstelecom.it.http-request-tag-engine</groupId>
+  <artifactId>http-request-tag-engine-bootstrap</artifactId>
+  <version>0.0.1</version>
+  <packaging>pom</packaging>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+  <modules>
+  	<module>http-request-tag-engine-core</module>
+  	<module>http-request-tag-engine-plugin-core</module>
+  	<module>http-request-tag-engine-plugin-template</module>
+  	<module>http-request-tag-engine-publisher</module>
+  </modules>
 </project>

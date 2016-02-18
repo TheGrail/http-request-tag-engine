@@ -1,0 +1,10 @@
+<configuration>
+    <dpi name="GW" source="HDFS" seperator="|">
+    	<field name="userid" index="0" encode=""></field>
+    	<field name="host" index="6" encode="base64"></field>
+    	<field name="url" index="7" encode="base64"></field>
+    	<field name="useragent" index="9" encode="base64"></field>
+    	<field name="cookies" index="10" encode="base64"></field>
+    	<field name="timestamp" index="11" encode=""></field>
+    </dpi>
+</configuration>
