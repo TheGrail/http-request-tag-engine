@@ -1,7 +1,7 @@
 <plugins root="plugins">
     <plugin name="atom-id">
-    	<location>atom-id/target</location>
-    	<jar>AtomIdTaggingPlugin-0.0.1-SNAPSHOT.jar</jar>
+    	<filename>http-request-tag-engine-plugin-atom-id-0.0.1-full</filename>
+    	<extension>jar</extension>
     	<entryclass>AtomIdTaggingPlugin</entryclass>
     </plugin>
 </plugins>

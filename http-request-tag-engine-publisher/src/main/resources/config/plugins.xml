@@ -1,7 +1,0 @@
-<plugins root="plugins">
-    <plugin name="atom-id">
-    	<location>atom-id/target</location>
-    	<jar>AtomIdTaggingPlugin-0.0.1-SNAPSHOT.jar</jar>
-    	<entryclass>AtomIdTaggingPlugin</entryclass>
-    </plugin>
-</plugins>
