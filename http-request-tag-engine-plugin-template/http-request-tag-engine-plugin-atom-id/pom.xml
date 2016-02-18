@@ -6,6 +6,13 @@
     <version>0.0.1</version>
   </parent>
   <artifactId>http-request-tag-engine-plugin-atom-id</artifactId>
+  <dependencies>
+  	<dependency>
+	  <groupId>commons-codec</groupId>
+	  <artifactId>commons-codec</artifactId>
+	  <version>1.10</version>
+    </dependency>
+  </dependencies>
   <build>
     <plugins>
       <plugin>
@@ -19,8 +26,7 @@
                <goal>shade</goal>
             </goals>
             <configuration>
-               <finalName>${project.artifactId}-${project.version}-full</finalName>
-               <outputDirectory>${project.basedir}/../../http-request-tag-engine-publisher/src/main/resources/plugins/</outputDirectory>
+              <outputFile>${project.basedir}/../../http-request-tag-engine-core/src/main/resources/plugins/${project.artifactId}-${project.version}-full.jar</outputFile>
             </configuration>
           </execution>
         </executions>

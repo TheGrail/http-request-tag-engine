@@ -9,9 +9,9 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
   <modules>
-  	<module>http-request-tag-engine-core</module>
   	<module>http-request-tag-engine-plugin-core</module>
   	<module>http-request-tag-engine-plugin-template</module>
-  	<module>http-request-tag-engine-publisher</module>
+  	<module>http-request-tag-engine-core</module>
+  	<module>http-request-tag-engine-examples</module>
   </modules>
 </project>

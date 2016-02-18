@@ -16,9 +16,9 @@
   </repositories>
   <dependencies>
   	<dependency>
-      <groupId>com.jstelecom.it</groupId>
+      <groupId>com.jstelecom.it.http-request-tag-engine</groupId>
       <artifactId>http-request-tag-engine-plugin-core</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.2</version>
     </dependency>
   </dependencies>
   <modules>

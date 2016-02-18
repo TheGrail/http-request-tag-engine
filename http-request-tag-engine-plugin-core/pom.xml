@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.jstelecom.it.http-request-tag-engine</groupId>
     <artifactId>http-request-tag-engine-bootstrap</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
   </parent>
   <artifactId>http-request-tag-engine-plugin-core</artifactId>
   <build>
@@ -16,11 +16,10 @@
           <execution>
             <phase>package</phase>
             <goals>
-               <goal>shade</goal>
+              <goal>shade</goal>
             </goals>
             <configuration>
-               <finalName>${project.artifactId}-${project.version}-full</finalName>
-               <outputDirectory>${project.basedir}/../repository/${project.groupId}/${project.artifactId}/${project.version}</outputDirectory>
+              <outputFile>${project.basedir}/../repository/${project.groupId}/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}-full.jar</outputFile>
             </configuration>
           </execution>
         </executions>
