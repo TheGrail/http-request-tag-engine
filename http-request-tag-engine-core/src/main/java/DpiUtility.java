@@ -16,9 +16,10 @@ public class DpiUtility {
 		m_listFields = new ArrayList<String>();
 	}
 	
-	public void setFieldIndex(String name, String index, String encode){
+	public void setFieldIndex(String name, String index, String encode, String type){
 		m_listFields.add(name);
 		m_listFields.add(index);
 		m_listFields.add(encode);
+		m_listFields.add(type);
 	}
 }
