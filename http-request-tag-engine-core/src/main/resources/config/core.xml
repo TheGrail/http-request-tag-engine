@@ -7,4 +7,9 @@
     	<field name="cookies" index="10" encode="base64"></field>
     	<field name="timestamp" index="11" encode=""></field>
     </dpi>
+    <binding>
+    	<program>Stormxxx</program>
+    	<dpi>GW</dpi>
+    	<plugin>atom-id</plugin>
+    </binding>
 </configuration>
