@@ -4,46 +4,99 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.TerminalModel;
+
 import org.apache.commons.codec.binary.Base64;
 
 
 public class AtomIdTaggingPlugin extends BasePlugin implements IPlugin {
 
+	TerminalModel terminalModel;
+	
 	public AtomIdTaggingPlugin(){
 		super();
+		terminalModel = new TerminalModel();
 	}
 	
 	public void tagging(String line, String seperator, List<String> fields) {
+		// 放到BasePlugin里
 		seperator = escapeSeperator(seperator);
 		System.out.println(line);
 		HashMap<String, List<String>> map = new HashMap<String, List<String>>();
-		for(int i=0; i<fields.size(); i+=3){
+		for(int i=0; i<fields.size(); i+=4){
 			String name = fields.get(i);
 			String index = fields.get(i+1);
 			String encode = fields.get(i+2);
+			String type = fields.get(i+3);
+			System.out.println(name + "," + index + "," + encode + "," + type);
 			List<String> list = new ArrayList<String>();
 			list.add(index);
 			list.add(encode);
+			list.add(type);
 			map.put(name, list);
 		}
 		String[] cols = line.split(seperator, -1);
-		for(Map.Entry<String, List<String>> entry : map.entrySet()){
-			String field = entry.getKey();
-			List<String> list = entry.getValue();
-			String index = list.get(0);
-			String encode = list.get(1);
-			
-			int idx = Integer.parseInt(index);
-			String text = cols[idx];
-			if(encode.equals("base64")){
-				try {
-					text = new String(Base64.decodeBase64(text), "utf-8");
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-			}			
-			System.out.println(field + " : " + text);
+		
+		String output = "";
+		// 用户账户
+		{
+			String fieldname = "userid";
+			Integer index = Integer.parseInt(map.get(fieldname).get(0));
+			String text = cols[index];
+			String encode = map.get(fieldname).get(1);
+			text = decode(text, encode);
+			String type = map.get(fieldname).get(2);
+			output += text + "|" + type;
 		}
+		output += "|";
+		// 终端
+		{
+			String fieldname = "useragent";
+			Integer index = Integer.parseInt(map.get(fieldname).get(0));
+			String text = cols[index];
+			String encode = map.get(fieldname).get(1);
+			text = decode(text, encode);
+			text = terminalModel.getTerminal(text);
+			String type = map.get(fieldname).get(2);
+			output += text + "|" + type;
+		}
+		output += "|";
+		// 账号
+		{
+			String fieldname = "useragent";
+			Integer index = Integer.parseInt(map.get(fieldname).get(0));
+			String text = cols[index];
+			String encode = map.get(fieldname).get(1);
+			text = decode(text, encode);
+			text = "qq";
+			String type = map.get(fieldname).get(2);
+			output += text + "|" + type;
+		}
+		String atomid = encode(output, "md5");
+		output += "|";
+		// cookies
+		{
+			String fieldname = "cookies";
+			Integer index = Integer.parseInt(map.get(fieldname).get(0));
+			String text = cols[index];
+			String encode = map.get(fieldname).get(1);
+			text = decode(text, encode);
+			String type = map.get(fieldname).get(2);
+			output += text;
+		}
+		output += "|";
+		// timestamp
+		{
+			String fieldname = "timestamp";
+			Integer index = Integer.parseInt(map.get(fieldname).get(0));
+			String text = cols[index];
+			String encode = map.get(fieldname).get(1);
+			text = decode(text, encode);
+			String type = map.get(fieldname).get(2);
+			output += text;
+		}
+		
+		System.out.println(atomid + "|" + output);
 	}
 
 }

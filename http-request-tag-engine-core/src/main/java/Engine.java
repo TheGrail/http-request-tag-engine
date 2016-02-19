@@ -55,7 +55,8 @@ public class Engine {
         		String fieldname = field.attributeValue("name");
         		String index = field.attributeValue("index");
         		String encode = field.attributeValue("encode");
-        		desc.setFieldIndex(fieldname, index, encode); // =========
+        		String type = field.getTextTrim();
+        		desc.setFieldIndex(fieldname, index, encode, type); // =========
         	}
         	m_mapDpiUtility.put(name, desc);
         }
