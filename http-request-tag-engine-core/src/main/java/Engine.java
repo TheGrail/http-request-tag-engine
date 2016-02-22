@@ -26,9 +26,9 @@ import org.dom4j.io.SAXReader;
 
 public class Engine {
 
-	private HashMap<String, DpiUtility> m_mapDpiUtility;
-	private HashMap<String, PluginUtility> m_mapPluginUtility;
-	private DpiUtility m_currentDpiUtility;
+	private HashMap<String, DpiInfo> m_mapDpiUtility;
+	private HashMap<String, PluginInfo> m_mapPluginUtility;
+	private DpiInfo m_currentDpiUtility;
 	private Class<?> m_classPlugin;
 	private Object m_objectPlugin;
 	
@@ -38,7 +38,7 @@ public class Engine {
 	}
 	
 	public void setCoreConfiguration(String coreConfigXml) throws DocumentException{
-		m_mapDpiUtility = new HashMap<String, DpiUtility>();
+		m_mapDpiUtility = new HashMap<String, DpiInfo>();
 		InputStream inputXml = this.getClass().getResourceAsStream(coreConfigXml);
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(inputXml);
@@ -49,7 +49,7 @@ public class Engine {
         	String name = dpi.attributeValue("name");
         	String source = dpi.attributeValue("source");
         	String seperator = dpi.attributeValue("seperator");
-        	DpiUtility desc = new DpiUtility(name, source, seperator); // ======
+        	DpiInfo desc = new DpiInfo(name, source, seperator); // ======
         	List<Element> fieldList = dpi.elements("field");
         	for(Element field : fieldList){
         		String fieldname = field.attributeValue("name");
@@ -63,7 +63,7 @@ public class Engine {
 	}
 	
 	public void setPluginsConfiguration(String pluginsConfigXml) throws DocumentException{
-		m_mapPluginUtility = new HashMap<String, PluginUtility>();
+		m_mapPluginUtility = new HashMap<String, PluginInfo>();
 		InputStream inputXml = this.getClass().getResourceAsStream(pluginsConfigXml);
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(inputXml);
@@ -76,18 +76,18 @@ public class Engine {
         	String filename = plugin.element("filename").getTextTrim();
         	String extension = plugin.element("extension").getTextTrim();
         	String entryclass = plugin.element("entryclass").getTextTrim();
-        	PluginUtility desc = new PluginUtility(rootDirectory, name, filename, extension, entryclass);
+        	PluginInfo desc = new PluginInfo(rootDirectory, name, filename, extension, entryclass);
         	m_mapPluginUtility.put(name, desc);
         }
 	}
 	
 	public void setDpi(String dpiName){
-		DpiUtility dpi = m_mapDpiUtility.get(dpiName);
+		DpiInfo dpi = m_mapDpiUtility.get(dpiName);
 		m_currentDpiUtility = dpi;
 	}
 	
 	public void loadPlugin(String pluginName) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, URISyntaxException{
-		PluginUtility plugin = m_mapPluginUtility.get(pluginName);
+		PluginInfo plugin = m_mapPluginUtility.get(pluginName);
 		String strPluginJarPath = plugin.m_strRoot + "/" + plugin.m_strFileName + "." + plugin.m_strExtension;
 		File filePluginJar = File.createTempFile(plugin.m_strFileName, "." + plugin.m_strExtension);
 		filePluginJar.deleteOnExit();
