@@ -3,13 +3,13 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class DpiUtility {
+public class DpiInfo {
 	public String m_strName;
 	public String m_strSource;
 	public String m_strSeperator;
 	public List<String> m_listFields;
 	
-	public DpiUtility(String name, String source, String seperator){
+	public DpiInfo(String name, String source, String seperator){
 		m_strName = name;
 		m_strSource = source;
 		m_strSeperator = seperator;
