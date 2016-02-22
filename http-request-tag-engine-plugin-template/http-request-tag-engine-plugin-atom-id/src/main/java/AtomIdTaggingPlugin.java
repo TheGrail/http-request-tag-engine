@@ -20,7 +20,7 @@ public class AtomIdTaggingPlugin extends BasePlugin implements IPlugin {
 	
 	public void tagging(String line, String seperator, List<String> fields) {
 		// 放到BasePlugin里
-		seperator = escapeSeperator(seperator);
+		seperator = PluginUtility.escape(seperator);
 		System.out.println(line);
 		HashMap<String, List<String>> map = new HashMap<String, List<String>>();
 		for(int i=0; i<fields.size(); i+=4){
@@ -44,7 +44,7 @@ public class AtomIdTaggingPlugin extends BasePlugin implements IPlugin {
 			Integer index = Integer.parseInt(map.get(fieldname).get(0));
 			String text = cols[index];
 			String encode = map.get(fieldname).get(1);
-			text = decode(text, encode);
+			text = PluginUtility.decode(text, encode);
 			String type = map.get(fieldname).get(2);
 			output += text + "|" + type;
 		}
@@ -55,7 +55,7 @@ public class AtomIdTaggingPlugin extends BasePlugin implements IPlugin {
 			Integer index = Integer.parseInt(map.get(fieldname).get(0));
 			String text = cols[index];
 			String encode = map.get(fieldname).get(1);
-			text = decode(text, encode);
+			text = PluginUtility.decode(text, encode);
 			text = terminalModel.getTerminal(text);
 			String type = map.get(fieldname).get(2);
 			output += text + "|" + type;
@@ -67,12 +67,12 @@ public class AtomIdTaggingPlugin extends BasePlugin implements IPlugin {
 			Integer index = Integer.parseInt(map.get(fieldname).get(0));
 			String text = cols[index];
 			String encode = map.get(fieldname).get(1);
-			text = decode(text, encode);
+			text = PluginUtility.decode(text, encode);
 			text = "qq";
 			String type = map.get(fieldname).get(2);
 			output += text + "|" + type;
 		}
-		String atomid = encode(output, "md5");
+		String atomid = PluginUtility.encode(output, "md5");
 		output += "|";
 		// cookies
 		{
@@ -80,7 +80,7 @@ public class AtomIdTaggingPlugin extends BasePlugin implements IPlugin {
 			Integer index = Integer.parseInt(map.get(fieldname).get(0));
 			String text = cols[index];
 			String encode = map.get(fieldname).get(1);
-			text = decode(text, encode);
+			text = PluginUtility.decode(text, encode);
 			String type = map.get(fieldname).get(2);
 			output += text;
 		}
@@ -91,7 +91,7 @@ public class AtomIdTaggingPlugin extends BasePlugin implements IPlugin {
 			Integer index = Integer.parseInt(map.get(fieldname).get(0));
 			String text = cols[index];
 			String encode = map.get(fieldname).get(1);
-			text = decode(text, encode);
+			text = PluginUtility.decode(text, encode);
 			String type = map.get(fieldname).get(2);
 			output += text;
 		}
