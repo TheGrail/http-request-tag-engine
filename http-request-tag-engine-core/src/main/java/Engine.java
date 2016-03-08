@@ -3,6 +3,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
@@ -37,7 +38,7 @@ public class Engine {
 		setPluginsConfiguration(pluginsConfigXml);
 	}
 	
-	public void setCoreConfiguration(String coreConfigXml) throws DocumentException{
+	public void setCoreConfiguration(String coreConfigXml) throws DocumentException, IOException{
 		m_mapDpiUtility = new HashMap<String, DpiInfo>();
 		InputStream inputXml = this.getClass().getResourceAsStream(coreConfigXml);
         SAXReader saxReader = new SAXReader();
@@ -60,9 +61,10 @@ public class Engine {
         	}
         	m_mapDpiUtility.put(name, desc);
         }
+        inputXml.close();
 	}
 	
-	public void setPluginsConfiguration(String pluginsConfigXml) throws DocumentException{
+	public void setPluginsConfiguration(String pluginsConfigXml) throws DocumentException, IOException{
 		m_mapPluginUtility = new HashMap<String, PluginInfo>();
 		InputStream inputXml = this.getClass().getResourceAsStream(pluginsConfigXml);
         SAXReader saxReader = new SAXReader();
@@ -79,6 +81,7 @@ public class Engine {
         	PluginInfo desc = new PluginInfo(rootDirectory, name, filename, extension, entryclass);
         	m_mapPluginUtility.put(name, desc);
         }
+        inputXml.close();
 	}
 	
 	public void setDpi(String dpiName){
@@ -86,7 +89,7 @@ public class Engine {
 		m_currentDpiUtility = dpi;
 	}
 	
-	public void loadPlugin(String pluginName) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, URISyntaxException{
+	public void loadPlugin(String pluginName) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, URISyntaxException, SecurityException, IllegalArgumentException, NoSuchMethodException, InvocationTargetException{
 		PluginInfo plugin = m_mapPluginUtility.get(pluginName);
 		String strPluginJarPath = plugin.m_strRoot + "/" + plugin.m_strFileName + "." + plugin.m_strExtension;
 		File filePluginJar = File.createTempFile(plugin.m_strFileName, "." + plugin.m_strExtension);
@@ -99,15 +102,17 @@ public class Engine {
 		registerPlugin(filePluginJar.toURI().toURL(), plugin.m_strEntryClass);
 	}
 	
-	private void registerPlugin(URL url, String entry) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+	private void registerPlugin(URL url, String entry) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SecurityException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException{
 		URLClassLoader loader = new URLClassLoader(new URL[]{ url });
 		m_classPlugin = loader.loadClass(entry);
-		m_objectPlugin = m_classPlugin.newInstance();
+		Constructor<?> constructor = m_classPlugin.getConstructor(String.class, List.class);
+		//m_objectPlugin = m_classPlugin.newInstance();
+		m_objectPlugin = constructor.newInstance(m_currentDpiUtility.m_strSeperator, m_currentDpiUtility.m_listFields);
 	}
 	
 	
 	public void tagging(String line) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException{
-		Method methodTagging = m_classPlugin.getMethod("tagging", String.class, String.class, List.class);
-		methodTagging.invoke(m_objectPlugin, line, m_currentDpiUtility.m_strSeperator, m_currentDpiUtility.m_listFields);
+		Method methodTagging = m_classPlugin.getMethod("tagging", String.class);
+		methodTagging.invoke(m_objectPlugin, line);
 	}
 }
