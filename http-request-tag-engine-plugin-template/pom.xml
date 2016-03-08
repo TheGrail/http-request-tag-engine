@@ -24,6 +24,5 @@
   </dependencies>
   <modules>
   	<module>http-request-tag-engine-plugin-atom-id</module>
-  	<module></module>  <module>http-request-tag-engine-plugin-content-tag</module>
   </modules>
 </project>

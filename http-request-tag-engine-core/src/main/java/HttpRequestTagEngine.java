@@ -21,7 +21,7 @@ public class HttpRequestTagEngine {
 		engine.setDpi(dpiName);
 	}
 	// 动态加载插件
-	public void loadPlugin(String pluginName) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, URISyntaxException{
+	public void loadPlugin(String pluginName) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, URISyntaxException, SecurityException, IllegalArgumentException, NoSuchMethodException, InvocationTargetException{
 		engine.loadPlugin(pluginName);
 	}
 	// 打标签

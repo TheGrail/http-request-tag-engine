@@ -4,73 +4,79 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import model.EmailRecognitionModel;
-import model.TerminalModel;
+import org.dom4j.DocumentException;
 
-import org.apache.commons.codec.binary.Base64;
-import org.omg.DynamicAny.DynValueOperations;
-
-import account.EmailRecognition;
-import account.OtherNetRecognition;
-import terminal.TerminalRecognition;
-import util.MysqlManager;
+import model.BaseModel;
+import model.module.EmailRecognitionModel;
+import model.module.OtherNetRecognitionModel;
+import model.module.TerminalRecognitionModel;
+import dpi.Dpi;
 
 
-public class AtomIdTaggingPlugin extends BasePlugin implements IPlugin {
+public class AtomIdTaggingPlugin extends BasePlugin {
 	
-	private MysqlManager mysqlManager;
-	private EmailRecognition emailRecognition;
-	private OtherNetRecognition otherNetRecognition;
-	private TerminalRecognition terminalRecognition;
+	private BaseModel m_modelEmailRecognition;
+	private BaseModel m_modelOtherNetRecognition;
+	private BaseModel m_modelTerminalRecognition;
 	
-	private DpiInfo dpiInfo;
-	private String seperator;
- 
-	private String inseperator;
-
-	public AtomIdTaggingPlugin(String seperator, List<String> fields){
-		super();
-		//配置文件路径在这写死？还是入参？
-		String propFilePath = "";
-		mysqlManager = new MysqlManager(propFilePath);
-		emailRecognition = new EmailRecognition(mysqlManager);
-		otherNetRecognition = new OtherNetRecognition(mysqlManager);
-		terminalRecognition = new TerminalRecognition(propFilePath);
-		dpiInfo = new DpiInfo(seperator, fields);
-		inseperator = "^";
+	private final String m_strOutputSeperator = "^";
+	private final String m_strOutputInsideSeperator = "|";
+	
+	public AtomIdTaggingPlugin(String seperator, List<String> fields) throws DocumentException{
+		super(seperator, fields);
+		m_modelEmailRecognition = new EmailRecognitionModel(getModelInfo("email-recognition"));
+		m_modelOtherNetRecognition = new OtherNetRecognitionModel(getModelInfo("other-net-recognition"));
+		m_modelTerminalRecognition = new TerminalRecognitionModel(getModelInfo("terminal-recognition"));
 	}	
 	
-	public void tagging(String line){
+	public String tagging(String line){
 		System.out.println(line);
-		Dpi dpi = new Dpi(line, seperator, dpiInfo.getDpiInfo());
+		Dpi dpi = new Dpi(line, getDpiInfo());
 		
 		StringBuilder output = new StringBuilder();
-		String host = dpi.getHost();
-		String url = dpi.getUrl();
-		String ua = dpi.getUa();
 		
-		String email = emailRecognition.getEmail(host, url);
-		if(email != null){
-			output.append("Email");
-			output.append(inseperator);
+		{
+			String userid = dpi.getUid();
+			String type = getDpiInfo().getFieldInfo("userid").getType();
+			output.append(userid);
+			output.append(m_strOutputSeperator);
+			output.append(type);
+			output.append(m_strOutputSeperator);
+		}
+		
+		{
+			String terminal = m_modelTerminalRecognition.recognize(dpi);
+			String type = "1";
+			output.append(terminal);
+			output.append(m_strOutputSeperator);
+			output.append(type);
+			output.append(m_strOutputSeperator);
+		}
+		
+		{
+			String email = m_modelEmailRecognition.recognize(dpi);
+			String type = "email";
 			output.append(email);
+			output.append(m_strOutputSeperator);
+			output.append(type);
+			output.append(m_strOutputSeperator);
 		}
-		output.append(inseperator);
 		
-		String otherNet = otherNetRecognition.getOtherNet(host, url);
-		if(otherNet != null){
-			output.append("OtherNet");
-			output.append(inseperator);
-			output.append(otherNet);
+		{
+			String othernet = m_modelOtherNetRecognition.recognize(dpi);
+			String type = "othernet";
+			output.append(othernet);
+			output.append(m_strOutputSeperator);
+			output.append(type);
+			output.append(m_strOutputSeperator);
 		}
-		output.append(inseperator);
 		
-		String terminal = terminalRecognition.getTerminal(ua, host);
-		if(terminal != null){
-			
+		{
+			output.append(dpi.getUserAgent());
 		}
 				
 		System.out.println(output.toString());
+		return output.toString();
 	}
 	
 }
