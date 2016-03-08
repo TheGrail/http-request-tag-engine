@@ -39,38 +39,43 @@ public abstract class BasePlugin {
         	int type = Integer.parseInt(connection.attributeValue("type"));
         	switch(type){
 	        	case ModelInfo.CONNECTION_RAWDATA:
-	        	{
-	        		Element rows = model.element("rows");
-	        		String seperator = rows.attributeValue("seperator");
-	        		@SuppressWarnings("unchecked")
-					List<Element> rowList = rows.elements("row");
-	        		HashMap<String, String> map = new HashMap<String, String>();
-	        		for(Element row : rowList){
-	        			String key = row.elementTextTrim("key");
-	        			String value = row.elementTextTrim("value");
-	        			map.put(key, value);
-	        		}
-	        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, map));
-	        		break;
-	        	}
+		        	{
+		        		Element rows = model.element("rows");
+		        		String seperator = rows.attributeValue("seperator");
+		        		@SuppressWarnings("unchecked")
+						List<Element> rowList = rows.elements("row");
+		        		HashMap<String, String> map = new HashMap<String, String>();
+		        		for(Element row : rowList){
+		        			String key = row.elementTextTrim("key");
+		        			String value = row.elementTextTrim("value");
+		        			map.put(key, value);
+		        		}
+		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, map));
+		        		
+		        	}
+		        	break;
 	        	case ModelInfo.CONNECTION_MYSQL:
-	        	{
-	        		String host = connection.element("host").getTextTrim();
-	        		String port = connection.element("port").getTextTrim();
-	        		String username = connection.element("username").getTextTrim();
-	        		String password = connection.element("password").getTextTrim();
-	        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, host, port, username, password));
-	        		break;
-	        	}
+		        	{
+		        		String host = connection.element("host").getTextTrim();
+		        		String port = connection.element("port").getTextTrim();
+		        		String username = connection.element("username").getTextTrim();
+		        		String password = connection.element("password").getTextTrim();
+		        		String schema = connection.element("schema").getTextTrim();
+		        		String table = connection.element("table").getTextTrim();
+		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, host, port, username, password, schema, table));
+		        	}
+		        	break;
 	        	case ModelInfo.CONNECTION_REDIS_CLUSTER:
-	        	{
-	        		String host = connection.element("host").getTextTrim();
-	        		String port = connection.element("port").getTextTrim();
-	        		String username = connection.element("username").getTextTrim();
-	        		String password = connection.element("password").getTextTrim();
-	        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, host, port, username, password));
-	        		break;
-	        	}
+		        	{
+		        		String host = connection.element("host").getTextTrim();
+		        		String port = connection.element("port").getTextTrim();
+		        		String username = connection.element("username").getTextTrim();
+		        		String password = connection.element("password").getTextTrim();
+		        		String schema = connection.element("schema").getTextTrim();
+		        		String table = connection.element("table").getTextTrim();
+		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, host, port, username, password, schema, table));
+		        	}
+		        	break;
 	        	default:
 	        		break;
         	}
