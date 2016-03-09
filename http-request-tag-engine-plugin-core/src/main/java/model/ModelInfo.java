@@ -12,8 +12,7 @@ public class ModelInfo {
 	private String m_strName;
 	private String m_strModule;
 	private int m_strConnectionType;
-	private String m_strHost = null;
-	private String m_strPort = null;
+	private String m_strServer;
 	private String m_strUsername = null;
 	private String m_strPassword = null;
 	private String m_strSchema = null;
@@ -21,16 +20,23 @@ public class ModelInfo {
 	private HashMap<String, String> m_mapRawData = null;
 	
 	// mysql
-	public ModelInfo(String name, String module, int type, String host, String port, String username, String password, String schema, String table){
+	public ModelInfo(String name, String module, int type, String server, String username, String password, String schema, String table){
 		m_strName = name;
 		m_strModule = module;
 		m_strConnectionType = type;
-		m_strHost = host;
-		m_strPort = port;
+		m_strServer = server;
 		m_strUsername = username;
 		m_strPassword = password;
 		m_strSchema = schema;
 		m_strTable = table;
+	}
+	
+	// redis-cluster
+	public ModelInfo(String name, String module, int type, String server){
+		m_strName = name;
+		m_strModule = module;
+		m_strConnectionType = type;
+		m_strServer = server;
 	}
 	
 	// rawdata
@@ -53,12 +59,8 @@ public class ModelInfo {
 		return m_strConnectionType;
 	}
 	
-	public String getHost(){
-		return m_strHost;
-	}
-	
-	public String getPort(){
-		return m_strPort;
+	public String getServer(){
+		return m_strServer;
 	}
 	
 	public String getUsername(){

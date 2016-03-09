@@ -1,6 +1,8 @@
 <configuration>
-    <dpi name="GW" source="HDFS" seperator="|">
+    <dpi name="GW" source="HDFS" seperator="^">
     	<field name="userid" index="0" encode="">1</field>
+    	<field name="srcip" index="2" encode=""></field>
+    	<field name="srcport" index="4" encode=""></field>
     	<field name="host" index="6" encode="base64"></field>
     	<field name="url" index="7" encode="base64"></field>
     	<field name="useragent" index="9" encode="base64"></field>

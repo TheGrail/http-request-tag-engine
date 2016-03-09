@@ -56,24 +56,18 @@ public abstract class BasePlugin {
 		        	break;
 	        	case ModelInfo.CONNECTION_MYSQL:
 		        	{
-		        		String host = connection.element("host").getTextTrim();
-		        		String port = connection.element("port").getTextTrim();
+		        		String server = connection.element("server").getTextTrim();
 		        		String username = connection.element("username").getTextTrim();
 		        		String password = connection.element("password").getTextTrim();
 		        		String schema = connection.element("schema").getTextTrim();
 		        		String table = connection.element("table").getTextTrim();
-		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, host, port, username, password, schema, table));
+		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, server, username, password, schema, table));
 		        	}
 		        	break;
 	        	case ModelInfo.CONNECTION_REDIS_CLUSTER:
 		        	{
-		        		String host = connection.element("host").getTextTrim();
-		        		String port = connection.element("port").getTextTrim();
-		        		String username = connection.element("username").getTextTrim();
-		        		String password = connection.element("password").getTextTrim();
-		        		String schema = connection.element("schema").getTextTrim();
-		        		String table = connection.element("table").getTextTrim();
-		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, host, port, username, password, schema, table));
+		        		String server = connection.element("server").getTextTrim();
+		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, server));
 		        	}
 		        	break;
 	        	default:

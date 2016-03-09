@@ -9,6 +9,8 @@ public class DpiUtility {
 	public static String escape(String seperator){
 		if(seperator.equals("|")){
 			seperator = "\\|";
+		}else if(seperator.equals("^")){
+			seperator = "\\^";
 		}
 		return seperator;
 	}

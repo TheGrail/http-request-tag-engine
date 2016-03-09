@@ -33,7 +33,7 @@ public class OtherNetRecognitionModel extends BaseModel{
 					m_mapData = new HashMap<String, String>();
 					
 					String driver = "com.mysql.jdbc.Driver";
-					String url = String.format("jdbc:mysql://%s:%s/%s", info.getHost(), info.getPort(), info.getSchema());
+					String url = String.format("jdbc:mysql://%s/%s", info.getServer(), info.getSchema());
 					String username = info.getUsername();
 					String password = info.getPassword();
 					String sql =  String.format("select * from %s", info.getTable());
