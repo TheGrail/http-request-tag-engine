@@ -24,11 +24,12 @@ public class Dpi {
 		m_dpiInfo = info;
 		
 		uid = parse(cols, "userid");
+		sourceIp = parse(cols, "srcip");
+		sourcePort = parse(cols, "srcport");
 		host = parse(cols, "host");
 		url = parse(cols, "url");
 		useragent = parse(cols, "useragent");
 		timestamp = parse(cols, "timestamp");
-		
 	}
 	
 	public String parse(String[] cols, String name){
@@ -55,8 +56,8 @@ public class Dpi {
 		return destinationIp;
 	}
 
-	public String getSourcePort() {
-		return sourcePort;
+	public int getSourcePort() {
+		return Integer.parseInt(sourcePort);
 	}
 
 	public String getDestinationport() {

@@ -9,12 +9,14 @@ import org.dom4j.DocumentException;
 import model.BaseModel;
 import model.module.EmailRecognitionModel;
 import model.module.OtherNetRecognitionModel;
+import model.module.SrcIp2UseridRecognitionModel;
 import model.module.TerminalRecognitionModel;
 import dpi.Dpi;
 
 
 public class AtomIdTaggingPlugin extends BasePlugin {
 	
+	private BaseModel m_modelSrcIp2UseridRecognition;
 	private BaseModel m_modelEmailRecognition;
 	private BaseModel m_modelOtherNetRecognition;
 	private BaseModel m_modelTerminalRecognition;
@@ -24,6 +26,7 @@ public class AtomIdTaggingPlugin extends BasePlugin {
 	
 	public AtomIdTaggingPlugin(String seperator, List<String> fields) throws DocumentException{
 		super(seperator, fields);
+		m_modelSrcIp2UseridRecognition = new SrcIp2UseridRecognitionModel(getModelInfo("srcip2userid-recognition"));
 		m_modelEmailRecognition = new EmailRecognitionModel(getModelInfo("email-recognition"));
 		m_modelOtherNetRecognition = new OtherNetRecognitionModel(getModelInfo("other-net-recognition"));
 		m_modelTerminalRecognition = new TerminalRecognitionModel(getModelInfo("terminal-recognition"));
@@ -36,7 +39,7 @@ public class AtomIdTaggingPlugin extends BasePlugin {
 		StringBuilder output = new StringBuilder();
 		
 		{
-			String userid = dpi.getUid();
+			String userid = m_modelSrcIp2UseridRecognition.recognize(dpi);
 			String type = getDpiInfo().getFieldInfo("userid").getType();
 			output.append(userid);
 			output.append(m_strOutputSeperator);
