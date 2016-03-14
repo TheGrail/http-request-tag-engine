@@ -9,14 +9,8 @@ import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.net.URLDecoder;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 import org.apache.commons.io.IOUtils;
 import org.dom4j.Document;
@@ -32,6 +26,7 @@ public class Engine {
 	private DpiConfig m_currentDpiUtility;
 	private Class<?> m_classPlugin;
 	private Object m_objectPlugin;
+	private Method m_methodTagging;
 	
 	public Engine(String coreConfigXml, String pluginsConfigXml) throws DocumentException, IOException{
 		setCoreConfiguration(coreConfigXml);
@@ -40,18 +35,24 @@ public class Engine {
 	
 	public void setCoreConfiguration(String coreConfigXml) throws DocumentException, IOException{
 		m_mapDpiUtility = new HashMap<String, DpiConfig>();
+		//System.out.println(coreConfigXml);
 		InputStream inputXml = this.getClass().getResourceAsStream(coreConfigXml);
+		//System.out.println(this.getClass().getResource(coreConfigXml).toString());
+		//System.out.println(inputXml.available());
+		inputXml.available();
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(inputXml);
         Element configuration = document.getRootElement();
         // 读取DPI配置
-        List<Element> dpiList = configuration.elements("dpi");		// DPI类型列表
+        @SuppressWarnings("unchecked")
+		List<Element> dpiList = configuration.elements("dpi");		// DPI类型列表
         for(Element dpi : dpiList){
         	String name = dpi.attributeValue("name");
         	String source = dpi.attributeValue("source");
         	String seperator = dpi.attributeValue("seperator");
         	DpiConfig desc = new DpiConfig(name, source, seperator); // ======
-        	List<Element> fieldList = dpi.elements("field");
+        	@SuppressWarnings("unchecked")
+			List<Element> fieldList = dpi.elements("field");
         	for(Element field : fieldList){
         		String fieldname = field.attributeValue("name");
         		String index = field.attributeValue("index");
@@ -67,12 +68,14 @@ public class Engine {
 	public void setPluginsConfiguration(String pluginsConfigXml) throws DocumentException, IOException{
 		m_mapPluginUtility = new HashMap<String, PluginConfig>();
 		InputStream inputXml = this.getClass().getResourceAsStream(pluginsConfigXml);
+		inputXml.available();
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(inputXml);
         Element plugins = document.getRootElement();
         String rootDirectory = plugins.attributeValue("root");
         // 读取Plugin配置
-        List<Element> pluginList = plugins.elements("plugin");	
+        @SuppressWarnings("unchecked")
+		List<Element> pluginList = plugins.elements("plugin");	
         for(Element plugin : pluginList){
         	String name = plugin.attributeValue("name");
         	String filename = plugin.element("filename").getTextTrim();
@@ -108,11 +111,13 @@ public class Engine {
 		Constructor<?> constructor = m_classPlugin.getConstructor(String.class, List.class);
 		//m_objectPlugin = m_classPlugin.newInstance();
 		m_objectPlugin = constructor.newInstance(m_currentDpiUtility.m_strSeperator, m_currentDpiUtility.m_listFields);
+	
+		// 加载默认接口
+		m_methodTagging = m_classPlugin.getMethod("tagging", String.class);
 	}
 	
 	
-	public void tagging(String line) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException{
-		Method methodTagging = m_classPlugin.getMethod("tagging", String.class);
-		methodTagging.invoke(m_objectPlugin, line);
+	public String tagging(String line) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+		return (String)m_methodTagging.invoke(m_objectPlugin, line);
 	}
 }

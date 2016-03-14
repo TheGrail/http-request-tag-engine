@@ -10,6 +10,7 @@ public class HttpRequestTagEngine {
 	// 预置参数
 	private final String strCoreConfigXml = "config/core.xml";
 	private final String strPluginsConfigXml = "config/plugins.xml";
+	private final String strEngineVersion = "0.0.1";
 	// 引擎核心
 	private Engine engine;
 	// 构造函数
@@ -25,7 +26,11 @@ public class HttpRequestTagEngine {
 		engine.loadPlugin(pluginName);
 	}
 	// 打标签
-	public void tagging(String line) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException{
-		engine.tagging(line);
+	public String tagging(String line) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+		return engine.tagging(line);
+	}
+	// 引擎版本
+	public String getEngineVersion(){
+		return strEngineVersion;
 	}
 }
