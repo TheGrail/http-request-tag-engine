@@ -1,7 +1,9 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -37,11 +39,9 @@ public class Engine {
 		m_mapDpiUtility = new HashMap<String, DpiConfig>();
 		//System.out.println(coreConfigXml);
 		InputStream inputXml = this.getClass().getResourceAsStream(coreConfigXml);
-		//System.out.println(this.getClass().getResource(coreConfigXml).toString());
-		//System.out.println(inputXml.available());
-		inputXml.available();
+		BufferedReader br = new BufferedReader(new InputStreamReader(inputXml));
         SAXReader saxReader = new SAXReader();
-        Document document = saxReader.read(inputXml);
+        Document document = saxReader.read(br);
         Element configuration = document.getRootElement();
         // 读取DPI配置
         @SuppressWarnings("unchecked")
@@ -62,15 +62,16 @@ public class Engine {
         	}
         	m_mapDpiUtility.put(name, desc);
         }
+        br.close();
         inputXml.close();
 	}
 	
 	public void setPluginsConfiguration(String pluginsConfigXml) throws DocumentException, IOException{
 		m_mapPluginUtility = new HashMap<String, PluginConfig>();
 		InputStream inputXml = this.getClass().getResourceAsStream(pluginsConfigXml);
-		inputXml.available();
+		BufferedReader br = new BufferedReader(new InputStreamReader(inputXml));
         SAXReader saxReader = new SAXReader();
-        Document document = saxReader.read(inputXml);
+        Document document = saxReader.read(br);
         Element plugins = document.getRootElement();
         String rootDirectory = plugins.attributeValue("root");
         // 读取Plugin配置
@@ -84,6 +85,7 @@ public class Engine {
         	PluginConfig desc = new PluginConfig(rootDirectory, name, filename, extension, entryclass);
         	m_mapPluginUtility.put(name, desc);
         }
+        br.close();
         inputXml.close();
 	}
 	

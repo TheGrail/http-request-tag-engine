@@ -1,15 +1,7 @@
 package model.module;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
@@ -26,7 +18,7 @@ public class TerminalRecognitionModel extends BaseModel{
 		super(info);
 	}
 	
-	public void loadData(ModelInfo info){
+	public void load(ModelInfo info){
 		JedisPoolConfig poolConfig = new JedisPoolConfig();
 		Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
 		

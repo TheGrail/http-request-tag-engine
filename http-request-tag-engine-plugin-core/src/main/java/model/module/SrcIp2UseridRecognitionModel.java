@@ -20,7 +20,7 @@ public class SrcIp2UseridRecognitionModel extends BaseModel {
 	}
 
 	@Override
-	public void loadData(ModelInfo info) {
+	public void load(ModelInfo info) {
 		JedisPoolConfig poolConfig = new JedisPoolConfig();
 		Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
 		

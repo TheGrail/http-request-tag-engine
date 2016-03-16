@@ -1,5 +1,7 @@
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public abstract class BasePlugin {
 	public void setModelConfiguration(String strModelConfigXml) throws DocumentException, IOException{
 		m_mapModelInfo = new HashMap<String, ModelInfo>();
 		InputStream inputXml = this.getClass().getResourceAsStream(strModelConfigXml);
-		inputXml.available();
+		BufferedReader br = new BufferedReader(new InputStreamReader(inputXml));
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(inputXml);
         Element models = document.getRootElement();
@@ -63,7 +65,8 @@ public abstract class BasePlugin {
 		        		String password = connection.element("password").getTextTrim();
 		        		String schema = connection.element("schema").getTextTrim();
 		        		String table = connection.element("table").getTextTrim();
-		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, server, username, password, schema, table));
+		        		long interval = Long.parseLong(connection.element("interval").getTextTrim());
+		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, server, username, password, schema, table, interval));
 		        	}
 		        	break;
 	        	case ModelInfo.CONNECTION_REDIS_CLUSTER:
@@ -76,6 +79,8 @@ public abstract class BasePlugin {
 	        		break;
         	}
         }
+        br.close();
+        inputXml.close();
 	}
     
     public DpiInfo getDpiInfo(){
