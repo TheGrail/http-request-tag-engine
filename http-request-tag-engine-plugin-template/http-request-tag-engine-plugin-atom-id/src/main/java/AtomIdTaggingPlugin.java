@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class AtomIdTaggingPlugin extends BasePlugin {
 	private final String m_strOutputSeperator = "^";
 	private final String m_strOutputInsideSeperator = "|";
 	
-	public AtomIdTaggingPlugin(String seperator, List<String> fields) throws DocumentException{
+	public AtomIdTaggingPlugin(String seperator, List<String> fields) throws DocumentException, IOException{
 		super(seperator, fields);
 		m_modelSrcIp2UseridRecognition = new SrcIp2UseridRecognitionModel(getModelInfo("srcip2userid-recognition"));
 		m_modelEmailRecognition = new EmailRecognitionModel(getModelInfo("email-recognition"));
@@ -33,7 +34,7 @@ public class AtomIdTaggingPlugin extends BasePlugin {
 	}	
 	
 	public String tagging(String line){
-		System.out.println(line);
+		//System.out.println(line);
 		Dpi dpi = new Dpi(line, getDpiInfo());
 		
 		StringBuilder output = new StringBuilder();
@@ -78,7 +79,7 @@ public class AtomIdTaggingPlugin extends BasePlugin {
 			output.append(dpi.getUserAgent());
 		}
 				
-		System.out.println(output.toString());
+		//System.out.println(output.toString());
 		return output.toString();
 	}
 	

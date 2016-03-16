@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -18,14 +19,15 @@ public abstract class BasePlugin {
 	private final String m_strModelConfigXml = "/config/models.xml";
 	private HashMap<String, ModelInfo> m_mapModelInfo;
 	
-	public BasePlugin(String sep, List<String> fields) throws DocumentException{
+	public BasePlugin(String sep, List<String> fields) throws DocumentException, IOException{
 		m_dpiInfo = new DpiInfo(sep, fields);
 		setModelConfiguration(m_strModelConfigXml);
 	}
 	
-	public void setModelConfiguration(String strModelConfigXml) throws DocumentException{
+	public void setModelConfiguration(String strModelConfigXml) throws DocumentException, IOException{
 		m_mapModelInfo = new HashMap<String, ModelInfo>();
 		InputStream inputXml = this.getClass().getResourceAsStream(strModelConfigXml);
+		inputXml.available();
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(inputXml);
         Element models = document.getRootElement();
