@@ -17,10 +17,11 @@ public class ModelInfo {
 	private String m_strPassword = null;
 	private String m_strSchema = null;
 	private String m_strTable = null;
+	private long m_lInterval = 3600000;
 	private HashMap<String, String> m_mapRawData = null;
 	
 	// mysql
-	public ModelInfo(String name, String module, int type, String server, String username, String password, String schema, String table){
+	public ModelInfo(String name, String module, int type, String server, String username, String password, String schema, String table, long interval){
 		m_strName = name;
 		m_strModule = module;
 		m_strConnectionType = type;
@@ -29,6 +30,7 @@ public class ModelInfo {
 		m_strPassword = password;
 		m_strSchema = schema;
 		m_strTable = table;
+		m_lInterval = interval;
 	}
 	
 	// redis-cluster
@@ -77,6 +79,10 @@ public class ModelInfo {
 	
 	public String getTable(){
 		return m_strTable;
+	}
+	
+	public long getInterval(){
+		return m_lInterval;
 	}
 	
 	public HashMap<String, String> getRawData(){

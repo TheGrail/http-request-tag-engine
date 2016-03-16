@@ -24,7 +24,17 @@ public class BasicExample {
 		methodLoadPlugin.invoke(engine, "atom-id");
 		
 		Method methodTagging = classHttpRequestTagEngine.getMethod("tagging", String.class);
-		methodTagging.invoke(engine, "051083303031^6^114.223.14.170^202.102.94.120^4006^80^aHEuc2luYWpzLmNu^aHR0cHM6Ly9ocS5zaW5hanMuY24vcm49MTQ1NzMzMzYzNTEwMSZsaXN0PXNoNjAwMDE2LHNoNjAwMDE2X2kscnRfaGswMTk4OCxSTUJIS0QsYmtfbmV3X2pyaHk=^aHR0cDovL2ZpbmFuY2Uuc2luYS5jb20uY24vcmVhbHN0b2NrL2NvbXBhbnkvc2g2MDAwMTYvbmMuc2h0bWw=^TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgNS4xKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMzEuMC4xNjUwLjYzIFNhZmFyaS81MzcuMzY=^^1^20160307145401");
+		
+		while(true){
+			String s = (String)methodTagging.invoke(engine, "051083303031^6^114.223.14.170^202.102.94.120^4006^80^aHEuc2luYWpzLmNu^aHR0cHM6Ly9ocS5zaW5hanMuY24vcm49MTQ1NzMzMzYzNTEwMSZsaXN0PXNoNjAwMDE2LHNoNjAwMDE2X2kscnRfaGswMTk4OCxSTUJIS0QsYmtfbmV3X2pyaHk=^aHR0cDovL2ZpbmFuY2Uuc2luYS5jb20uY24vcmVhbHN0b2NrL2NvbXBhbnkvc2g2MDAwMTYvbmMuc2h0bWw=^TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgNS4xKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMzEuMC4xNjUwLjYzIFNhZmFyaS81MzcuMzY=^^1^20160307145401");
+			System.out.println(s);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

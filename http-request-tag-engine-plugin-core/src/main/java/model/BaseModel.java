@@ -1,15 +1,14 @@
 package model;
 
-import java.util.HashMap;
-
 import dpi.Dpi;
 
-public abstract class BaseModel {
+public abstract class BaseModel{
 	
 	public BaseModel(ModelInfo info){
-		loadData(info);
+		load(info);
 	}
 	
-	public abstract void loadData(ModelInfo info);
+	public abstract void load(ModelInfo info);
 	public abstract String recognize(Dpi dpi);
+
 }
