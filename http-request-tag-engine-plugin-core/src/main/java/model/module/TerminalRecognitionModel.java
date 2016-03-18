@@ -44,7 +44,12 @@ public class TerminalRecognitionModel extends BaseModel{
 	    		result = temp;
 	    	}
 		}
-		return result;
+		
+		if(result == null){
+			return "";
+		}else{
+			return result;
+		}
 	}
 	
 	private String getStandardTerminal(String temp){

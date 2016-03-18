@@ -9,6 +9,16 @@
     	<field name="cookies" index="10" encode="base64"></field>
     	<field name="timestamp" index="11" encode=""></field>
     </dpi>
+    <dpi name="kafka-GW" source="kafka" seperator="|">
+    	<field name="userid" index="1" encode="">1</field>
+    	<field name="srcip" index="3" encode=""></field>
+    	<field name="srcport" index="5" encode="hex"></field>
+    	<field name="host" index="7" encode="base64"></field>
+    	<field name="url" index="8" encode="base64"></field>
+    	<field name="useragent" index="10" encode="base64"></field>
+    	<field name="cookies" index="11" encode="base64"></field>
+    	<field name="timestamp" index="12" encode=""></field>
+    </dpi>
     <binding>
     	<program>Stormxxx</program>
     	<dpi>GW</dpi>

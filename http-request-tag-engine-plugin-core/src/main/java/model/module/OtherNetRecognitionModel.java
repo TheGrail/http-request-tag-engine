@@ -35,7 +35,8 @@ public class OtherNetRecognitionModel extends BaseModel implements Runnable{
 		while(true){
 			m_threadLock.lock();
 			try{
-				//System.out.println("update " + this.getClass().getName() + " from mysql");
+				System.out.println("##################################################");
+				System.out.println("update " + this.getClass().getName() + " from mysql");
 				ResultSet rs = m_stmtCurrent.executeQuery(m_strQuery);
 				m_mapData.clear();
 				while(rs.next()) {
@@ -47,7 +48,8 @@ public class OtherNetRecognitionModel extends BaseModel implements Runnable{
 				}
 				rs.close();
 				m_cdnInitialized.signalAll();
-				//System.out.println("updated - " + m_mapData.size());
+				System.out.println("updated - " + m_mapData.size());
+				System.out.println("##################################################");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
@@ -69,7 +71,7 @@ public class OtherNetRecognitionModel extends BaseModel implements Runnable{
 			// 建立MySQL连接，以流缓冲的方式读取，缓存Statement
 			try {
 				String driver = "com.mysql.jdbc.Driver";
-				String url = String.format("jdbc:mysql://%s/%s?defaultFetchSize=1000", info.getServer(), info.getSchema());
+				String url = String.format("jdbc:mysql://%s/%s?defaultFetchSize=1000&autoReconnect=true", info.getServer(), info.getSchema());
 				String username = info.getUsername();
 				String password = info.getPassword();
 				m_strQuery =  String.format("select * from %s", info.getTable());
@@ -112,7 +114,8 @@ public class OtherNetRecognitionModel extends BaseModel implements Runnable{
 				return matcher.group(1);
 			}
 		}
-		return null;
+		
+		return "";
 	}
 
 }

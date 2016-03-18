@@ -61,7 +61,11 @@ public class SrcIp2UseridRecognitionModel extends BaseModel {
 			}
 		}
 		
-		return userid;
+		if(userid == null){
+			return "123456789a";
+		}else{
+			return userid;
+		}
 	}
 
 }

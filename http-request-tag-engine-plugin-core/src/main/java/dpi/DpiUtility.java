@@ -21,6 +21,8 @@ public class DpiUtility {
 				return s;
 			}else if(type.equals("base64")){
 					return new String(Base64.decodeBase64(s), "utf-8");
+			}else if(type.equals("hex")){
+				return String.valueOf(Integer.parseInt(s, 16));
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
