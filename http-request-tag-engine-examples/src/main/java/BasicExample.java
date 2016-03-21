@@ -19,14 +19,14 @@ public class BasicExample {
 		Object engine = classHttpRequestTagEngine.newInstance();
 		
 		Method methodSetDpi = classHttpRequestTagEngine.getMethod("setDpi", String.class);
-		methodSetDpi.invoke(engine, "GW");
+		methodSetDpi.invoke(engine, "kafka-GW");
 		Method methodLoadPlugin = classHttpRequestTagEngine.getMethod("loadPlugin", String.class);
 		methodLoadPlugin.invoke(engine, "atom-id");
 		
 		Method methodTagging = classHttpRequestTagEngine.getMethod("tagging", String.class);
 		
 		while(true){
-			String s = (String)methodTagging.invoke(engine, "051083303031^6^114.223.14.170^202.102.94.120^4006^80^aHEuc2luYWpzLmNu^aHR0cHM6Ly9ocS5zaW5hanMuY24vcm49MTQ1NzMzMzYzNTEwMSZsaXN0PXNoNjAwMDE2LHNoNjAwMDE2X2kscnRfaGswMTk4OCxSTUJIS0QsYmtfbmV3X2pyaHk=^aHR0cDovL2ZpbmFuY2Uuc2luYS5jb20uY24vcmVhbHN0b2NrL2NvbXBhbnkvc2g2MDAwMTYvbmMuc2h0bWw=^TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgNS4xKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMzEuMC4xNjUwLjYzIFNhZmFyaS81MzcuMzY=^^1^20160307145401");
+			String s = (String)methodTagging.invoke(engine, "|123456789a|06|49.65.237.246|58.211.85.32|C573|0050|bW1zbnMucXBpYy5jbg==|aHR0cHM6Ly9tbXNucy5xcGljLmNuL21tc25zL0dxSWxlakZUYk5nRXFUTGJ0dm1pYmE1YkNpYVN0TVVkNEVRdDk3c2E0SDZsTmJUZDFBUUZsdjFOeG9PT0t6aHozaDVpY2JFM2hBcmYyOC8xNTA/dHA9d2VicA==||RGFsdmlrLzIuMS4wIChMaW51eDsgVTsgQW5kcm9pZCA1LjAuMjsgWDkwMCBCdWlsZC9DQlhDTk9QNTUwMTEwMjAzMVMp||1458197465|");
 			System.out.println(s);
 			try {
 				Thread.sleep(1000);

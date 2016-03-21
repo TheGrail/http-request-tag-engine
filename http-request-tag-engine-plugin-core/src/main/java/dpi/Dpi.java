@@ -14,13 +14,14 @@ public class Dpi {
 	private String url;
 	private String referer;
 	private String useragent;	
-	private String cookie;
+	private String cookies;
 	private String timestamp;
 	
 	private DpiInfo m_dpiInfo;
 	
 	public Dpi (String line, DpiInfo info){
 		String[] cols = line.split(info.getSeperator(), -1);
+		
 		m_dpiInfo = info;
 		
 		uid = parse(cols, "userid");
@@ -29,6 +30,7 @@ public class Dpi {
 		host = parse(cols, "host");
 		url = parse(cols, "url");
 		useragent = parse(cols, "useragent");
+		cookies = parse(cols, "cookies");
 		timestamp = parse(cols, "timestamp");
 	}
 	
@@ -80,8 +82,8 @@ public class Dpi {
 		return useragent;
 	}
 
-	public String getCookie() {
-		return cookie;
+	public String getCookies() {
+		return cookies;
 	}
 
 	public String getTimestamp() {

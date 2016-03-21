@@ -34,13 +34,22 @@ public class AtomIdTaggingPlugin extends BasePlugin {
 	}	
 	
 	public String tagging(String line){
-		//System.out.println(line);
+		System.out.println("orgin : " + line);
 		Dpi dpi = new Dpi(line, getDpiInfo());
 		
 		StringBuilder output = new StringBuilder();
 		
+//		System.out.println(dpi.getUid());
+//		System.out.println(dpi.getSourceIp());
+//		System.out.println(dpi.getSourcePort());
+//		System.out.println(dpi.getHost());
+//		System.out.println(dpi.getUrl());
+//		System.out.println(dpi.getUserAgent());
+//		System.out.println(dpi.getCookies());
+//		System.out.println(dpi.getTimestamp());
+		
 		{
-			String userid = m_modelSrcIp2UseridRecognition.recognize(dpi);
+			String userid = m_modelSrcIp2UseridRecognition.recognize(dpi).trim();
 			String type = getDpiInfo().getFieldInfo("userid").getType();
 			output.append(userid);
 			output.append(m_strOutputSeperator);
@@ -49,7 +58,7 @@ public class AtomIdTaggingPlugin extends BasePlugin {
 		}
 		
 		{
-			String terminal = m_modelTerminalRecognition.recognize(dpi);
+			String terminal = m_modelTerminalRecognition.recognize(dpi).trim();
 			String type = "1";
 			output.append(terminal);
 			output.append(m_strOutputSeperator);
@@ -58,7 +67,7 @@ public class AtomIdTaggingPlugin extends BasePlugin {
 		}
 		
 		{
-			String email = m_modelEmailRecognition.recognize(dpi);
+			String email = m_modelEmailRecognition.recognize(dpi).trim();
 			String type = "email";
 			output.append(email);
 			output.append(m_strOutputSeperator);
@@ -67,7 +76,7 @@ public class AtomIdTaggingPlugin extends BasePlugin {
 		}
 		
 		{
-			String othernet = m_modelOtherNetRecognition.recognize(dpi);
+			String othernet = m_modelOtherNetRecognition.recognize(dpi).trim();
 			String type = "othernet";
 			output.append(othernet);
 			output.append(m_strOutputSeperator);
@@ -76,7 +85,7 @@ public class AtomIdTaggingPlugin extends BasePlugin {
 		}
 		
 		{
-			output.append(dpi.getUserAgent());
+			output.append(dpi.getUserAgent().trim());
 		}
 				
 		//System.out.println(output.toString());
