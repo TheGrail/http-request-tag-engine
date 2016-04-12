@@ -1,14 +1,16 @@
 package dpi;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
-
 
 public class DpiInfo {
 
 	private HashMap<String, FieldInfo> m_mapName2Field;
 	private String m_strSeperator;
+	
+	public DpiInfo(){
+		
+	}
 	
 	public DpiInfo(String sep, List<String> fields){
 		m_strSeperator = DpiUtility.escape(sep);

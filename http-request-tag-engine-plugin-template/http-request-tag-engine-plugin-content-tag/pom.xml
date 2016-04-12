@@ -5,18 +5,19 @@
     <artifactId>http-request-tag-engine-plugin-template</artifactId>
     <version>0.0.1</version>
   </parent>
-  <artifactId>http-request-tag-engine-plugin-atom-id</artifactId>
+  <artifactId>http-request-tag-engine-plugin-content-tag</artifactId>
+  
   <dependencies>
   	<dependency>
 	  <groupId>commons-codec</groupId>
 	  <artifactId>commons-codec</artifactId>
 	  <version>1.10</version>
-    </dependency>   
+    </dependency>
     <dependency>
     	<groupId>com.alibaba</groupId>
     	<artifactId>fastjson</artifactId>
     	<version>1.2.8</version>
-	</dependency>   
+	</dependency> 
   </dependencies>
   <build>
     <plugins>

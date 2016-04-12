@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -19,8 +20,10 @@ import dpi.Dpi;
 public class OtherNetRecognitionModel extends BaseModel implements Runnable{
 
 	private HashMap<String, String> m_mapData;
+	private ArrayList<String> m_hosArrayList;
 	private Statement m_stmtCurrent;
 	private String m_strQuery;
+	private static final int modelIndex = 2;
 	
 	private Thread m_threadUpdater;
 	private long m_lCheckUpdateInterval;
@@ -39,12 +42,14 @@ public class OtherNetRecognitionModel extends BaseModel implements Runnable{
 				System.out.println("update " + this.getClass().getName() + " from mysql");
 				ResultSet rs = m_stmtCurrent.executeQuery(m_strQuery);
 				m_mapData.clear();
+				m_hosArrayList.clear();
 				while(rs.next()) {
 					String rule = rs.getString("rule");
 					String[] cols = rule.split(",", 2);
 					String key = cols[0];
 					String value = cols[1];
 					m_mapData.put(key, value);
+					m_hosArrayList.add(key);
 				}
 				rs.close();
 				m_cdnInitialized.signalAll();
@@ -65,6 +70,7 @@ public class OtherNetRecognitionModel extends BaseModel implements Runnable{
 	
 	public void load(ModelInfo info){
 		m_mapData = new HashMap<String, String>();
+		m_hosArrayList = new ArrayList<String>();
 		m_lCheckUpdateInterval = info.getInterval();
 		
 		if(info.getConnectionType() == ModelInfo.CONNECTION_MYSQL){
@@ -106,16 +112,33 @@ public class OtherNetRecognitionModel extends BaseModel implements Runnable{
 		m_threadLock.unlock();
 		
 		String host = dpi.getHost();
-		String url = dpi.getUrl();
 		if(m_mapData.containsKey(host)){
+			String url = dpi.getUrl();
 			Pattern pattern = Pattern.compile(m_mapData.get(host));
 			Matcher matcher = pattern.matcher(url);
 			if(matcher.find()){
 				return matcher.group(1);
 			}
-		}
-		
+		}		
 		return "";
 	}
+	
+	public ArrayList<String> getHost(){
+		m_threadLock.lock();
+		if(m_hosArrayList == null || m_hosArrayList.size() == 0){
+			try {
+				m_cdnInitialized.await();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		m_threadLock.unlock();
+		return m_hosArrayList;		
+	}
 
+	@Override
+	public int getModelIndex() {
+		return modelIndex;
+	}
 }

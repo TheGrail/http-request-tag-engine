@@ -4,14 +4,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
-import model.BaseModel;
+import model.ContentTaggingRule;
 import model.ModelInfo;
 import dpi.DpiInfo;
 
@@ -45,19 +45,38 @@ public abstract class BasePlugin {
 	        	case ModelInfo.CONNECTION_RAWDATA:
 		        	{
 		        		Element rows = model.element("rows");
-		        		String seperator = rows.attributeValue("seperator");
+		        		//String seperator = rows.attributeValue("seperator");
 		        		@SuppressWarnings("unchecked")
 						List<Element> rowList = rows.elements("row");
 		        		HashMap<String, String> map = new HashMap<String, String>();
+		        		HashMap<String, ContentTaggingRule> ruleMap = new HashMap<String, ContentTaggingRule>();
 		        		for(Element row : rowList){
-		        			String key = row.elementTextTrim("key");
-		        			String value = row.elementTextTrim("value");
+		        			String key = row.elementTextTrim("key");		        			
+		        			String value = row.elementTextTrim("value");		        			
 		        			map.put(key, value);
+		        			Element rule = row.element("rule");
+		        			String ruleName = rule.attributeValue("name");
+		        			int ruleType = Integer.parseInt(rule.attributeValue("ruletype"));
+		        			if(ruleType == 0){
+		        				//int startIndex = Integer.parseInt(rule.elementTextTrim("startindex"));
+		        				//int endIndex = Integer.parseInt(rule.elementTextTrim("endindex"));
+		        				String regex = rule.elementTextTrim("pattern");
+		        				//System.out.println("--------------"+regex);
+		        				//Pattern pattern = Pattern.compile(regex);
+		        				ContentTaggingRule contentTaggingRule = new ContentTaggingRule(ruleName, ruleType, regex);
+		        				ruleMap.put(key, contentTaggingRule);
+		        			}
+		        			else if(ruleType == 1){
+		        				String paraName = rule.elementTextTrim("paraname");
+		        				ContentTaggingRule contentTaggingRule = new ContentTaggingRule(ruleName, ruleType, paraName);
+		        				ruleMap.put(key, contentTaggingRule);
+		        			}
+		        			
 		        		}
-		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, map));
-		        		
+		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, map, ruleMap));		        		
 		        	}
 		        	break;
+		        	
 	        	case ModelInfo.CONNECTION_MYSQL:
 		        	{
 		        		String server = connection.element("server").getTextTrim();
@@ -69,12 +88,14 @@ public abstract class BasePlugin {
 		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, server, username, password, schema, table, interval));
 		        	}
 		        	break;
+		        	
 	        	case ModelInfo.CONNECTION_REDIS_CLUSTER:
 		        	{
 		        		String server = connection.element("server").getTextTrim();
 		        		m_mapModelInfo.put(name, new ModelInfo(name, module, type, server));
 		        	}
 		        	break;
+		        	
 	        	default:
 	        		break;
         	}
@@ -92,4 +113,5 @@ public abstract class BasePlugin {
     }
 	
 	public abstract String tagging(String line);
+	
 }

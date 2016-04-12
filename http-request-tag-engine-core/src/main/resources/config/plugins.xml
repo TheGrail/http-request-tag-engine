@@ -4,4 +4,9 @@
     	<extension>jar</extension>
     	<entryclass>AtomIdTaggingPlugin</entryclass>
     </plugin>
+    <plugin name="content-tag">
+    	<filename>http-request-tag-engine-plugin-content-tag-0.0.1-full</filename>
+    	<extension>jar</extension>
+    	<entryclass>ContentTaggingPlugin</entryclass>
+    </plugin>
 </plugins>

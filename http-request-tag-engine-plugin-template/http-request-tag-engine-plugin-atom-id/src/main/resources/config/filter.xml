@@ -1,0 +1,5 @@
+<rules>
+	<rule name="urlPostfix" type = "0">
+		<postfix><![CDATA[\.(js|css|jpg|jpeg|png|gif|bmp|txt|zip|rar|pdf|doc|xls|iso|exe|swf)$]]></postfix>
+	</rule>
+</rules>

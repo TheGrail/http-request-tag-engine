@@ -5,7 +5,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-
 public class BasicExample {
 
 	public static void main(String[] args) throws MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException, SecurityException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException {
@@ -24,17 +23,10 @@ public class BasicExample {
 		methodLoadPlugin.invoke(engine, "atom-id");
 		
 		Method methodTagging = classHttpRequestTagEngine.getMethod("tagging", String.class);
-		
+				
 		while(true){
 			String s = (String)methodTagging.invoke(engine, "|123456789a|06|49.65.237.246|58.211.85.32|C573|0050|bW1zbnMucXBpYy5jbg==|aHR0cHM6Ly9tbXNucy5xcGljLmNuL21tc25zL0dxSWxlakZUYk5nRXFUTGJ0dm1pYmE1YkNpYVN0TVVkNEVRdDk3c2E0SDZsTmJUZDFBUUZsdjFOeG9PT0t6aHozaDVpY2JFM2hBcmYyOC8xNTA/dHA9d2VicA==||RGFsdmlrLzIuMS4wIChMaW51eDsgVTsgQW5kcm9pZCA1LjAuMjsgWDkwMCBCdWlsZC9DQlhDTk9QNTUwMTEwMjAzMVMp||1458197465|");
 			System.out.println(s);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 	}
-
 }
