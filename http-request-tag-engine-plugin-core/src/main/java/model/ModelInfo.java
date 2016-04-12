@@ -1,7 +1,6 @@
 package model;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class ModelInfo {
 
@@ -19,6 +18,7 @@ public class ModelInfo {
 	private String m_strTable = null;
 	private long m_lInterval = 3600000;
 	private HashMap<String, String> m_mapRawData = null;
+	private HashMap<String, ContentTaggingRule> m_mapContentTaggingRule = null;
 	
 	// mysql
 	public ModelInfo(String name, String module, int type, String server, String username, String password, String schema, String table, long interval){
@@ -42,11 +42,12 @@ public class ModelInfo {
 	}
 	
 	// rawdata
-	public ModelInfo(String name, String module, int type, HashMap<String, String> map){
+	public ModelInfo(String name, String module, int type, HashMap<String, String> map, HashMap<String, ContentTaggingRule> mapContentTaggingRule){
 		m_strName = name;
 		m_strModule = module;
 		m_strConnectionType = type;
 		m_mapRawData = map;
+		m_mapContentTaggingRule = mapContentTaggingRule;
 	}
 	
 	public String getName(){
@@ -87,5 +88,9 @@ public class ModelInfo {
 	
 	public HashMap<String, String> getRawData(){
 		return m_mapRawData;
+	}
+
+	public HashMap<String, ContentTaggingRule> getMapContentTaggingRule() {
+		return m_mapContentTaggingRule;
 	}
 }

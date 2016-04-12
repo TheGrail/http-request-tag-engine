@@ -1,5 +1,6 @@
 package model.module;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,7 @@ import model.ModelInfo;
 public class SrcIp2UseridRecognitionModel extends BaseModel {
 
 	JedisCluster jc;
+	private final String m_strOutputSeperator = "^";
 	
 	public SrcIp2UseridRecognitionModel(ModelInfo info) {
 		super(info);
@@ -60,12 +62,28 @@ public class SrcIp2UseridRecognitionModel extends BaseModel {
 				}
 			}
 		}
-		
+		StringBuilder result = new StringBuilder();
 		if(userid == null){
-			return "123456789a";
+			dpi.setUid(srcip);
+			return String.format("%s%s%s", "sourceIp", m_strOutputSeperator, srcip);
 		}else{
-			return userid;
+			dpi.setUid(userid);
+			result.append("userId");
+			result.append(m_strOutputSeperator);
+			result.append(userid);
+			return result.toString();
 		}
 	}
 
+	@Override
+	public ArrayList<String> getHost() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getModelIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

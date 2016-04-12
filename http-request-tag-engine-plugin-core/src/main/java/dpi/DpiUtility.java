@@ -1,9 +1,9 @@
 package dpi;
+
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
-
 
 public class DpiUtility {
 	public static String escape(String seperator){
